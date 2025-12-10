@@ -8,6 +8,7 @@ import * as AuthActions from '../../../../auth/store/auth.actions';
 // Store
 import { selectCurrentUser, selectUserTenantId } from '../../../../auth/store/auth.selectors';
 import { SessionService } from '../../../../core/services/session.service';
+import { Session, SessionList } from '../../../interfaces/session.interface';
 import * as NotificationsActions from '../../../store/notifications/notifications.actions';
 import { SessionManagerDialogComponent } from '../../session/session-manager-dialog/session-manager-dialog.component';
 // Local Components
@@ -24,9 +25,9 @@ export class DashboardLayoutComponent implements OnInit {
   private sessionService = inject(SessionService);
 
   user$ = this.store.select(selectCurrentUser);
-  sessionManagerVisible = false;
-  currentSession = signal<any | null>(null);
-  allSessions = signal<any | null>(null);
+  sessionManagerVisible = signal(false);
+  currentSession = signal<Session | null>(null);
+  allSessions = signal<SessionList | null>(null);
 
   ngOnInit() {
     // Wait for tenant ID to be available before any operations
@@ -47,12 +48,12 @@ export class DashboardLayoutComponent implements OnInit {
   }
 
   showSessionManager() {
-    this.sessionManagerVisible = true;
+    this.sessionManagerVisible.set(true);
     this.loadSessions();
   }
 
   hideSessionManager() {
-    this.sessionManagerVisible = false;
+    this.sessionManagerVisible.set(false);
   }
 
   async loadSessions() {
@@ -61,18 +62,29 @@ export class DashboardLayoutComponent implements OnInit {
       this.currentSession.set(await this.sessionService.getSessionInfo());
 
       // Load all sessions
-      this.allSessions.set(await this.sessionService.getAllSessions());
+      const sessionsData = await this.sessionService.getAllSessions();
 
       // Mark current session in the list
-      const allSessionsData = this.allSessions();
       const currentSessionData = this.currentSession();
 
-      if (allSessionsData?.sessions && currentSessionData) {
-        allSessionsData.sessions = allSessionsData.sessions.map((session: any) => ({
-          ...session,
-          current: session.$id === currentSessionData.$id,
-        }));
-        this.allSessions.set(allSessionsData);
+      if (sessionsData?.sessions && currentSessionData) {
+        const updatedSessions: SessionList = {
+          total: sessionsData.total || sessionsData.sessions.length,
+          sessions: sessionsData.sessions.map((session: Session) => ({
+            ...session,
+            current: session.$id === currentSessionData.$id,
+          })),
+        };
+        this.allSessions.set(updatedSessions);
+      } else if (sessionsData) {
+        // Ensure we have a proper SessionList structure
+        const sessionList: SessionList = {
+          total: sessionsData.total || (sessionsData.sessions?.length ?? 0),
+          sessions: sessionsData.sessions || [],
+        };
+        this.allSessions.set(sessionList);
+      } else {
+        this.allSessions.set(null);
       }
     } catch (error) {
       console.error('Failed to load sessions:', error);

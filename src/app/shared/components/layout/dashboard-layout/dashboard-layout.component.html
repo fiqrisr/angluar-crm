@@ -16,9 +16,9 @@
 
   <!-- Session Manager Dialog -->
   <app-session-manager-dialog
-    [visible]="sessionManagerVisible"
-    [currentSession]="currentSession"
-    [allSessions]="allSessions"
+    [visible]="sessionManagerVisible()"
+    [currentSession]="currentSession()"
+    [allSessions]="allSessions()"
     (dialogHide)="hideSessionManager()"
     (refreshSession)="refreshSession()"
     (deleteSession)="deleteSession($event)"

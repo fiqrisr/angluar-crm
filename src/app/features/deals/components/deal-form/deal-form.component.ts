@@ -76,6 +76,12 @@ export class DealFormComponent {
     });
   }
 
+  onVisibleChange(visible: boolean) {
+    if (!visible) {
+      this.onDialogHide();
+    }
+  }
+
   onCancel() {
     this.onDialogHide();
   }

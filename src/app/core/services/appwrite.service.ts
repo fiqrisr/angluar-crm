@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Account, Client, Databases, Query } from 'appwrite';
 
 import { environment } from '../../../environments/environment';
-import { Contact, Deal, Meeting, User } from '../models';
+import { SessionList } from '../../shared/interfaces/session.interface';
+import { Contact, Deal, Meeting } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -68,11 +69,11 @@ export class AppwriteService {
     }
   }
 
-  async getAllSessions() {
+  async getAllSessions(): Promise<SessionList> {
     try {
       return await this.account.listSessions();
     } catch (error) {
-      return { sessions: [] };
+      return { total: 0, sessions: [] };
     }
   }
 

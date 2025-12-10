@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 // PrimeNG Imports
 import { DialogModule } from 'primeng/dialog';
 
+// Local Interfaces
+import { Session, SessionList } from '../../../interfaces/session.interface';
 // Local Components
 import { CurrentSessionInfoComponent } from '../current-session-info/current-session-info.component';
 import { SessionsListComponent } from '../sessions-list/sessions-list.component';
@@ -15,11 +17,17 @@ import { SessionsListComponent } from '../sessions-list/sessions-list.component'
 })
 export class SessionManagerDialogComponent {
   visible = input<boolean>(false);
-  currentSession = input<any | null>(null);
-  allSessions = input<any | null>(null);
+  currentSession = input<Session | null>(null);
+  allSessions = input<SessionList | null>(null);
 
   dialogHide = output<void>();
   refreshSession = output<void>();
   deleteSession = output<string>();
   deleteAllOtherSessions = output<void>();
+
+  onVisibleChange(visible: boolean) {
+    if (!visible) {
+      this.dialogHide.emit();
+    }
+  }
 }

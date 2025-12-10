@@ -5,6 +5,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 import * as AuthActions from '../../auth/store/auth.actions';
 import { selectIsAuthenticated } from '../../auth/store/auth.selectors';
+import { SessionList } from '../../shared/interfaces/session.interface';
 import { AppwriteService } from './appwrite.service';
 
 @Injectable({
@@ -71,12 +72,12 @@ export class SessionService implements OnDestroy {
   }
 
   // Get all user sessions
-  async getAllSessions() {
+  async getAllSessions(): Promise<SessionList> {
     try {
       const sessions = await this.appwriteService.getAllSessions();
       return sessions;
     } catch (error) {
-      return { sessions: [] };
+      return { total: 0, sessions: [] };
     }
   }
 

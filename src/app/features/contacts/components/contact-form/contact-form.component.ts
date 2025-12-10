@@ -58,6 +58,12 @@ export class ContactFormComponent {
     this.contactForm.reset();
   }
 
+  onVisibleChange(visible: boolean) {
+    if (!visible) {
+      this.onDialogHide();
+    }
+  }
+
   onCancel() {
     this.onDialogHide();
   }

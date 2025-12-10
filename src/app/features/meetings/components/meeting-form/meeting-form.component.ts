@@ -59,6 +59,12 @@ export class MeetingFormComponent {
     this.meetingForm.reset();
   }
 
+  onVisibleChange(visible: boolean) {
+    if (!visible) {
+      this.onDialogHide();
+    }
+  }
+
   onCancel() {
     this.onDialogHide();
   }

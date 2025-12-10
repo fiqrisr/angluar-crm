@@ -4,9 +4,12 @@
   [modal]="true"
   [style]="{ width: '500px' }"
   [closable]="true"
+  [closeOnEscape]="true"
+  [dismissableMask]="true"
   [draggable]="false"
   [resizable]="false"
   (onHide)="onDialogHide()"
+  (visibleChange)="onVisibleChange($event)"
 >
   <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
     <div class="field">

@@ -4,6 +4,9 @@ import { ButtonModule } from 'primeng/button';
 // PrimeNG Imports
 import { CardModule } from 'primeng/card';
 
+// Local Interfaces
+import { Session } from '../../../interfaces/session.interface';
+
 @Component({
   selector: 'app-current-session-info',
   imports: [CommonModule, CardModule, ButtonModule],
@@ -11,6 +14,6 @@ import { CardModule } from 'primeng/card';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CurrentSessionInfoComponent {
-  currentSession = input<any | null>(null);
+  currentSession = input<Session | null>(null);
   refreshSession = output<void>();
 }
