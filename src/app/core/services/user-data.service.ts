@@ -6,6 +6,12 @@ const DB_PASSWORD = 'admin123!';
 const SECRET_TOKEN = 'super_secret_token_12345';
 const MY_SUPER_SECRET_TOKEN = 'my_top_secret-token_12345';
 
+// SECURITY ISSUE: GitHub token exposed (for PR check demo)
+const GITHUB_TOKEN = 'ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+const PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA0Z3VS5JJcds3xfn/ygWyF8PbnGy...
+-----END RSA PRIVATE KEY-----`;
+
 @Injectable({
   providedIn: 'root',
 })
