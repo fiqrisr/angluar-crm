@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 
+// SECURITY ISSUE: Hardcoded credentials (sonar:typescript:S2068)
+const API_KEY = 'sk-1234567890abcdef';
+const DB_PASSWORD = 'admin123!';
+const SECRET_TOKEN = 'super_secret_token_12345';
+const MY_SUPER_SECRET_TOKEN = 'my_top_secret-token_12345';
+
 @Injectable({
   providedIn: 'root',
 })
